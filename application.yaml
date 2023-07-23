@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-web-app
+  labels:
+    name: my-web-app
+    app: db-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: my-web-app
+      app: db-app
+  template:
+    metadata:
+      name: my-web-app
+      labels:
+        name: my-web-app
+        app: db-app
+    spec:
+      containers:
+      - image: rubisha/firstgo:main
+        name: my-web-app
+        ports:
+        - containerPort: 3000
+status: {}
