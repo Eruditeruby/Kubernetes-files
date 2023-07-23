@@ -1,0 +1,41 @@
+piVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  labels:
+    name: postgres-deploy
+    app: db-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: postgres
+      app: db-app
+  template:
+    metadata:
+      name: postgres
+      labels:
+        app: db-app
+        name: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            # Additional volume mounts if needed
+      volumes:
+        # Additional volumes if needed
+
